@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "providers": [
+      {
+        "domain": "https://wise-werewolf-67.clerk.accounts.dev",
+        "applicationID": "convex"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "content-koala🐨",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@clerk/clerk-react": "^5.53.2",
+    "@clerk/clerk-sdk-node": "^5.1.6",
+    "@convex-dev/auth": "^0.0.90",
+    "@google/genai": "^1.19.0",
+    "@stripe/stripe-js": "^8.1.0",
+    "convex": "^1.28.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "stripe": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
