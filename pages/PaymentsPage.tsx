@@ -1,63 +1,38 @@
 import { useAction } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { useState } from "react";
+import Button from "../components/Button";
 
-const prices = [
-  {
-    priceId: "price_123",
-    name: "100 Credits",
-    price: 10,
-  },
-  {
-    priceId: "price_456",
-    name: "500 Credits",
-    price: 45,
-  },
-  {
-    priceId: "price_789",
-    name: "1000 Credits",
-    price: 80,
-  },
+const creditPrices = [
+  { priceId: "price_1P6kmfRx5h25aW2pZ3S3gV7k", credits: 100, price: 10 },
+  { priceId: "price_1P6kqYRx5h25aW2pEa5k0v9j", credits: 500, price: 45 },
+  { priceId: "price_1P6krCRx5h25aW2pide3sP6j", credits: 1000, price: 80 },
 ];
 
 const PaymentsPage = () => {
   const pay = useAction(api.stripe.pay);
-  const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
 
-  const handlePayment = async () => {
-    if (!selectedPrice) {
-      return;
-    }
-    const url = await pay({ priceId: selectedPrice });
+  const handlePayment = async (priceId: string) => {
+    const url = await pay({ priceId });
     window.location.href = url!;
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-8">Purchase Credits</h1>
+    <div className="flex flex-col items-center justify-center h-full">
+      <h1 className="text-4xl font-bold mb-8">Buy Credits</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {prices.map((price) => (
+        {creditPrices.map((item) => (
           <div
-            key={price.priceId}
-            className={`p-8 rounded-lg shadow-md cursor-pointer ${
-              selectedPrice === price.priceId
-                ? "bg-blue-500 text-white"
-                : "bg-white"
-            }`}
-            onClick={() => setSelectedPrice(price.priceId)}
+            key={item.priceId}
+            className="bg-white rounded-lg shadow-md p-8 flex flex-col items-center"
           >
-            <h2 className="text-2xl font-bold mb-4">{price.name}</h2>
-            <p className="text-4xl font-bold">${price.price}</p>
+            <h2 className="text-2xl font-bold mb-4">{item.credits} Credits</h2>
+            <p className="text-4xl font-bold mb-4">${item.price}</p>
+            <Button onClick={() => handlePayment(item.priceId)}>
+              Buy Now
+            </Button>
           </div>
         ))}
       </div>
-      <button
-        className="mt-8 px-8 py-4 bg-blue-500 text-white rounded-lg shadow-md disabled:opacity-50"
-        disabled={!selectedPrice}
-        onClick={handlePayment}
-      >
-        Buy Now
-      </button>
     </div>
   );
 };

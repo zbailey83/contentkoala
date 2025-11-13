@@ -30,6 +30,7 @@ export const createUser = internalMutation({
       email: args.email,
       imageUrl: args.imageUrl,
       name: args.name,
+      credits: 10,
     });
   },
 });

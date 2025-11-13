@@ -7,6 +7,7 @@ export default defineSchema({
     email: v.string(),
     imageUrl: v.string(),
     clerkId: v.string(),
+    credits: v.number(),
   }).index("by_clerk_id", ["clerkId"]),
 
   generations: defineTable({

@@ -170,19 +170,30 @@ const LandingPage: React.FC<LandingPageProps> = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="text-center pt-20 pb-24 sm:pt-28 sm:pb-32 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif tracking-tight text-gray-900 dark:text-primary-text">
-            Amplify Your Marketing with <span className="text-accent">Content Koala🐨</span>
-          </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-secondary-text">
-            Content Koala🐨 is your all-in-one, AI powered toolkit for creating stunning ad creatives, social media posts, and optimized local SEO content in minutes.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <SignUpButton mode="modal">
-                <button className="w-full sm:w-auto text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-4 focus:ring-accent/50 hover:shadow-glow bg-accent">
-                Start 14-Day Free Trial🐨
-                </button>
-            </SignUpButton>
+        <section className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] flex items-center justify-center text-center overflow-hidden">
+          <video 
+            src="/video/hero-video.mp4" 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="absolute z-0 w-auto min-w-full min-h-full max-w-none"
+          ></video>
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-10"></div>
+          <div className="relative z-20 px-4 sm:px-6 lg:px-8">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif tracking-tight text-white">
+              Amplify Your Marketing with <span className="text-accent">Content Koala🐨</span>
+            </h1>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200">
+              Content Koala🐨 is your all-in-one, AI powered toolkit for creating stunning ad creatives, social media posts, and optimized local SEO content in minutes.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+              <SignUpButton mode="modal">
+                  <button className="w-full sm:w-auto text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-4 focus:ring-accent/50 hover:shadow-glow bg-accent">
+                  Start 14-Day Free Trial🐨
+                  </button>
+              </SignUpButton>
+            </div>
           </div>
         </section>
 
