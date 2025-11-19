@@ -8,7 +8,6 @@ import ImageUploader from '../components/ImageUploader';
 import StyleSelector from '../components/StyleSelector';
 import Button from '../components/Button';
 import GeneratedImage from '../components/GeneratedImage';
-import VideoGenerator from '../components/VideoGenerator';
 import { IMAGE_STYLE_OPTIONS } from '../constants';
 import type { UploadedFile } from '../types';
 
@@ -20,7 +19,6 @@ const AdGeneratorTool: React.FC<AdGeneratorToolProps> = ({ onBackToDashboard }) 
   // Convex state and mutations
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const startImageGeneration = useMutation(api.generations.startImageGeneration);
-  const startVideoGeneration = useMutation(api.generations.startVideoGeneration);
   const generations = useQuery(api.generations.getLatestAdCreations);
   
   // Local UI State
@@ -30,15 +28,8 @@ const AdGeneratorTool: React.FC<AdGeneratorToolProps> = ({ onBackToDashboard }) 
   const [selectedImageStyles, setSelectedImageStyles] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Video Generation State
-  const [videoSourceImageId, setVideoSourceImageId] = useState<Id<"_storage"> | null>(null);
-  const [videoDescription, setVideoDescription] = useState<string>('');
-  const [selectedVideoStyles, setSelectedVideoStyles] = useState<string[]>([]);
-
   const generatedImage = generations?.image;
   const isGeneratingImage = generatedImage?.status === 'pending';
-  const generatedVideo = generations?.video;
-  const isGeneratingVideo = generatedVideo?.status === 'pending';
 
   const handleImageStyleToggle = (style: string) => {
     setSelectedImageStyles(prev => {
@@ -47,15 +38,6 @@ const AdGeneratorTool: React.FC<AdGeneratorToolProps> = ({ onBackToDashboard }) 
       return prev;
     });
   };
-  
-  const handleVideoStyleToggle = (style: string) => {
-    setSelectedVideoStyles(prev => {
-      if (prev.includes(style)) return prev.filter(s => s !== style);
-      if (prev.length < 3) return [...prev, style];
-      return prev;
-    });
-  };
-
   const handleGenerateImage = useCallback(async () => {
     if (!primaryImageId || description.trim().length === 0 || selectedImageStyles.length === 0) {
       setError("Please upload a primary image, provide a description, and select at least one style.");
@@ -75,35 +57,8 @@ const AdGeneratorTool: React.FC<AdGeneratorToolProps> = ({ onBackToDashboard }) 
       setError(e instanceof Error ? e.message : "An unknown error occurred.");
     }
   }, [primaryImageId, secondaryImageId, description, selectedImageStyles, startImageGeneration]);
-  
-  const handleGenerateVideo = useCallback(async () => {
-    const sourceId = videoSourceImageId || primaryImageId;
-    if (!sourceId || videoDescription.trim().length === 0) {
-      setError("A source image and a video description are required.");
-      return;
-    }
-    setError(null);
-    
-    try {
-      await startVideoGeneration({
-        imageId: sourceId,
-        description: videoDescription,
-        styles: selectedVideoStyles,
-      });
-    } catch (e) {
-      console.error(e);
-      setError(e instanceof Error ? e.message : "An unknown error occurred during video generation.");
-    }
-  }, [primaryImageId, videoSourceImageId, videoDescription, selectedVideoStyles, startVideoGeneration]);
 
-  const canGenerateImage = primaryImageId !== null && description.trim() !== '' && selectedImageStyles.length > 0 && !isGeneratingImage && !isGeneratingVideo;
-  const canGenerateVideo = (primaryImageId !== null || videoSourceImageId !== null) && videoDescription.trim() !== '' && !isGeneratingImage && !isGeneratingVideo;
-  
-  const currentVideoSource = useMemo(() => {
-    if (videoSourceImageId) return videoSourceImageId;
-    if (generatedImage?.status === 'completed' && generatedImage.storageId) return generatedImage.storageId;
-    return primaryImageId;
-  }, [videoSourceImageId, generatedImage, primaryImageId]);
+  const canGenerateImage = primaryImageId !== null && description.trim() !== '' && selectedImageStyles.length > 0 && !isGeneratingImage;
 
   return (
     <>
@@ -130,14 +85,14 @@ const AdGeneratorTool: React.FC<AdGeneratorToolProps> = ({ onBackToDashboard }) 
                     onClear={() => setPrimaryImageId(null)}
                     label="Primary Product Photo*"
                     generateUploadUrl={generateUploadUrl}
-                    disabled={isGeneratingImage || isGeneratingVideo}
+                    disabled={isGeneratingImage}
                   />
                   <ImageUploader
                     onImageUpload={setSecondaryImageId}
                     onClear={() => setSecondaryImageId(null)}
                     label="Context Image (Optional)"
                     generateUploadUrl={generateUploadUrl}
-                    disabled={isGeneratingImage || isGeneratingVideo}
+                    disabled={isGeneratingImage}
                   />
                 </div>
               </div>
@@ -173,25 +128,11 @@ const AdGeneratorTool: React.FC<AdGeneratorToolProps> = ({ onBackToDashboard }) 
               <div className="flex-grow flex flex-col">
                 <GeneratedImage
                   generation={generatedImage}
-                  onUseForVideo={setVideoSourceImageId}
+                  onUseForVideo={() => {}}
                 />
               </div>
             </div>
           </div>
-          
-          {/* Bottom Row: Video Card */}
-          <VideoGenerator
-              generation={generatedVideo}
-              videoDescription={videoDescription}
-              onVideoDescriptionChange={setVideoDescription}
-              selectedStyles={selectedVideoStyles}
-              onStyleToggle={handleVideoStyleToggle}
-              onGenerate={handleGenerateVideo}
-              disabled={!canGenerateVideo}
-              sourceImageId={currentVideoSource}
-              isCustomSource={!!videoSourceImageId}
-              onClearCustomSource={() => setVideoSourceImageId(null)}
-            />
         </div>
       </div>
       {/* Mobile-only back button */}
