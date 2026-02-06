@@ -169,15 +169,17 @@ const LandingPage: React.FC<LandingPageProps> = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] flex items-center justify-center text-center overflow-hidden">
-          <video
-            src="/video/hero-video.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute z-0 w-auto min-w-full min-h-full max-w-none"
-          ></video>
+        <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+          <div className="w-full max-w-6xl mx-auto bg-white dark:bg-secondary-accent/50 rounded-2xl border border-gray-200 dark:border-secondary-accent/70 shadow-2xl overflow-hidden">
+            <video
+              src="/video/hero-video.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-auto shadow-inner"
+            ></video>
+          </div>
         </section>
 
         {/* Features Section */}
