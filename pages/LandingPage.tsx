@@ -8,12 +8,14 @@ import type { ClientService } from '../types';
 interface LandingPageProps { }
 
 const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description: string }> = ({ icon, title, description }) => (
-  <div className="p-6 bg-white dark:bg-secondary-accent/50 rounded-lg border border-gray-200 dark:border-secondary-accent/70 shadow-sm">
-    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-accent/10 text-accent dark:bg-accent/20 dark:text-purple-300">
-      {icon}
+  <div className="rainbow-card-wrapper rounded-lg h-full">
+    <div className="p-6 bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-secondary-accent/70 shadow-sm h-full relative z-10">
+      <div className="flex items-center justify-center h-12 w-12 rounded-full bg-accent/10 text-accent dark:bg-accent/20 dark:text-purple-300">
+        {icon}
+      </div>
+      <h3 className="mt-5 text-lg font-semibold text-gray-900 dark:text-primary-text">{title}</h3>
+      <p className="mt-2 text-sm text-gray-600 dark:text-secondary-text">{description}</p>
     </div>
-    <h3 className="mt-5 text-lg font-semibold text-gray-900 dark:text-primary-text">{title}</h3>
-    <p className="mt-2 text-sm text-gray-600 dark:text-secondary-text">{description}</p>
   </div>
 );
 
@@ -170,15 +172,17 @@ const LandingPage: React.FC<LandingPageProps> = () => {
       <main>
         {/* Hero Section */}
         <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-          <div className="w-full max-w-6xl mx-auto bg-white dark:bg-secondary-accent/50 rounded-2xl border border-gray-200 dark:border-secondary-accent/70 shadow-2xl overflow-hidden">
-            <video
-              src="/video/hero-video.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-auto shadow-inner"
-            ></video>
+          <div className="w-full max-w-5xl mx-auto rounded-2xl">
+            <div className="bg-white dark:bg-secondary-accent/50 rounded-2xl border border-gray-200 dark:border-secondary-accent/70 shadow-2xl overflow-hidden aspect-[21/9]">
+              <video
+                src="/video/hero-video.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover shadow-inner"
+              ></video>
+            </div>
           </div>
         </section>
 
